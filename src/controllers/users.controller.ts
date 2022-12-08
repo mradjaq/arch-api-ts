@@ -16,6 +16,10 @@ class UserController {
         
       })
   }
+
+  testHalo= (request: express.Request, response: express.Response) => {
+    response.send('GALLOOO')
+  }
       // Business Logic for GET API
 	// getAllPosts = (request: express.Request, response: express.Response) => {
 	// 	response.send(this.posts);
