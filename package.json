@@ -31,6 +31,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.26.0",
-    "sequelize-typescript": "^2.1.5"
+    "sequelize-typescript": "^2.1.5",
+    "cyclic-dynamodb": "0.0.21",
+    "env-cmd": "^10.1.0"
   }
 }
