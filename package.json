@@ -10,7 +10,7 @@
     "dev-old": "tsc -w & nodemon src/index/js",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "build--old": "rimraf ./build && tsc",
-    "build": "tsc && npm run start:dev",
+    "build": "tsc",
     "watch:build": "tsc --watch",
     "watch:server": "nodemon './dist/index.js' --watch './dist'",
     "start:dev": "npx nodemon"
