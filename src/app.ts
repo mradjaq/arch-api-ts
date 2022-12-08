@@ -17,7 +17,7 @@ if (!process.env.PORT) {
 
 export default class App {
   public app: express.Application = express();
-  public port: number = parseInt(process.env.PORT as string, 10 || 200);
+  public port: number = 80//parseInt(process.env.PORT as string, 10 || 200);
   appRoutes = new AppRoutes()
 
   constructor() {
