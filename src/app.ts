@@ -12,6 +12,13 @@ import { notFoundHandler } from "./middleware/not-found.middleware";
 import { mySqlConnection, mysql_connection } from "./server";
 import db_seq from "./db";
 
+declare module 'express-session' {
+  interface SessionData {
+    user_id: string;
+  }
+}
+
+
 dotenv.config();
 if (!process.env.PORT) {
   process.exit(1);
