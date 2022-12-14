@@ -22,7 +22,7 @@ const Reservation = db.define('reservation', {
   },
   fee: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     validate: {
       notNull: true,
     }

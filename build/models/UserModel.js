@@ -11,6 +11,7 @@ const Users = db_1.default.define('users', {
     uuid: {
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
         allowNull: false,
         validate: {
             notEmpty: true
@@ -39,13 +40,6 @@ const Users = db_1.default.define('users', {
             notEmpty: true,
         }
     },
-    // role_id: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate: {
-    //     notEmpty: true,
-    //   }
-    // },
     vehicle_no: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -55,14 +49,14 @@ const Users = db_1.default.define('users', {
     },
     reservation_id: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
             notEmpty: true,
         }
     },
     token: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
             notEmpty: true,
         }
@@ -71,5 +65,5 @@ const Users = db_1.default.define('users', {
     freezeTableName: true
 });
 RoleModel_1.default.hasMany(Users);
-Users.belongsTo(RoleModel_1.default, { foreignKey: 'role_id' });
+// Users.belongsTo(Role, { foreignKey: 'role_uuid' })
 exports.default = Users;

@@ -8,6 +8,7 @@ const ParkingSpot = db.define('parkingspot', {
   uuid: {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
     allowNull: false,
     validate: {
       notEmpty: true

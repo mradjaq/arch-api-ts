@@ -27,7 +27,7 @@ const Reservation = db_1.default.define('reservation', {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-            notEmpty: true,
+            notNull: true,
         }
     },
     // user_uuid: {

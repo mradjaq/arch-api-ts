@@ -10,10 +10,11 @@ const Role = db_1.default.define('role', {
     uuid: {
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
         allowNull: false,
         validate: {
             notEmpty: true
-        }
+        },
     },
     name: {
         type: DataTypes.STRING,

@@ -1,13 +1,14 @@
-import Sequelize from "sequelize";
+import Sequelize, { Model, Optional } from "sequelize";
 import db from "../db";
 import Role from "./RoleModel";
 
 const { DataTypes } = Sequelize;
 
-const Users = db.define('users', {
+const Users = db.define<UserInstance>('users', {
   uuid: {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
     allowNull: false,
     validate: {
       notEmpty: true
@@ -36,13 +37,6 @@ const Users = db.define('users', {
       notEmpty: true,
     }
   },
-  // role_id: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  //   validate: {
-  //     notEmpty: true,
-  //   }
-  // },
   vehicle_no: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -69,6 +63,30 @@ const Users = db.define('users', {
 })
 
 Role.hasMany(Users);
-Users.belongsTo(Role, { foreignKey: 'role_id' })
+// Users.belongsTo(Role, { foreignKey: 'role_uuid' })
 
 export default Users;
+interface IUser {
+  uuid?: string;
+  username: string;
+  email: string;
+  password: string;
+  vehicle_no: string;
+  reservation_id?: string
+  token?: string
+}
+
+/*
+  We have to declare the UserCreationAttributes to
+  tell Sequelize and TypeScript that the property uuid,
+  in this case, is optional to be passed at creation time
+*/
+// interface UserCreationAttributes
+//   extends Optional<IUser, 'uuid'> {}
+
+interface UserInstance
+  extends Model<IUser>,
+    IUser {
+      createdAt?: Date;
+      updatedAt?: Date;
+    }

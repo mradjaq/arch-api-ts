@@ -82,13 +82,20 @@ export default class App {
       console.log(`Arch API listening PORT ${this.port}`)
     });
   }
+
   
   async connectToMySql() {
-    await db_seq.sync(({ force: true })).then(res => {
-      console.log('log res', res)
-    }).catch(err => {
-      console.log('seq err', err)
-    });
+    // await db_seq.authenticate().then(async () => {
+      await db_seq.sync();
+    // })
+    // .then(res => {
+    //   console.log('log res', res)
+    // }).catch(err => {
+      
+      
+
+    //   console.log('seq err', err)
+    // });
     // mySqlConnection();
   }
 }

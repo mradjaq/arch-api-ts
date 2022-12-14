@@ -13,7 +13,7 @@ const controller = new role_controller_1.default();
 // userRoutes.get('/test-halo', controller.testHalo);
 // userRoutes.get('/users', controller.getAllUser);
 // userRoutes.get('/users/:uuid', controller.getUserByUUID);
-// userRoutes.post('/users', controller.createUser);
+roleRoutes.post('/role', controller.createRole);
 // userRoutes.patch('/users/:uuid', controller.updateUser);
 // userRoutes.delete('/users/:uuid', controller.deleteUser);
 exports.default = roleRoutes;

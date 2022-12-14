@@ -104,11 +104,14 @@ class App {
     }
     connectToMySql() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield db_1.default.sync(({ force: true })).then(res => {
-                console.log('log res', res);
-            }).catch(err => {
-                console.log('seq err', err);
-            });
+            // await db_seq.authenticate().then(async () => {
+            yield db_1.default.sync();
+            // })
+            // .then(res => {
+            //   console.log('log res', res)
+            // }).catch(err => {
+            //   console.log('seq err', err)
+            // });
             // mySqlConnection();
         });
     }
