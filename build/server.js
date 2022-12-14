@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mySqlConnection = exports.mysql_connection = void 0;
 const mysql_1 = __importDefault(require("mysql"));
 const dotenv = __importStar(require("dotenv"));
+// import { Sequelize } from "sequelize";
 dotenv.config();
 function mySqlConnection() {
     exports.mysql_connection = mysql_1.default.createConnection('mysql://foqmnvgjwkqr8ld9ap7x:pscale_pw_aIOcoWPGE9YCB5YR1pft1dNEF5oOMRhZWkgPUpurNpc@ap-southeast.connect.psdb.cloud/radjaparking?ssl={"rejectUnauthorized":true}');

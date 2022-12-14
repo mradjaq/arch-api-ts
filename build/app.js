@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -30,8 +39,9 @@ const express_1 = __importDefault(require("express"));
 const dotenv = __importStar(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
+const express_session_1 = __importDefault(require("express-session"));
 const index_1 = __importDefault(require("./routes/index"));
-const server_1 = require("./server");
+const db_1 = __importDefault(require("./db"));
 dotenv.config();
 if (!process.env.PORT) {
     process.exit(1);
@@ -39,7 +49,7 @@ if (!process.env.PORT) {
 class App {
     constructor() {
         this.app = (0, express_1.default)();
-        this.port = 80; //parseInt(process.env.PORT as string, 10 || 200);
+        this.port = parseInt(process.env.PORT, 10 || 200);
         this.appRoutes = new index_1.default();
         this.initMiddlewares();
         this.initAllApiRoutes(this.appRoutes.routers);
@@ -69,6 +79,16 @@ class App {
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.urlencoded({ extended: true }));
+        this.app.use((0, express_session_1.default)({
+            resave: false,
+            saveUninitialized: false,
+            secret: 't@1k0ch3ng',
+            name: 'secretName',
+            cookie: {
+                sameSite: true,
+                maxAge: 60000
+            },
+        }));
     }
     // Initialize all the routes of the application
     initAllApiRoutes(router) {
@@ -83,7 +103,14 @@ class App {
         });
     }
     connectToMySql() {
-        (0, server_1.mySqlConnection)();
+        return __awaiter(this, void 0, void 0, function* () {
+            yield db_1.default.sync(({ force: true })).then(res => {
+                console.log('log res', res);
+            }).catch(err => {
+                console.log('seq err', err);
+            });
+            // mySqlConnection();
+        });
     }
 }
 exports.default = App;

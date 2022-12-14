@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-old": "node ./dist/index.js",
+    "start-dev": "npm run build & npm run start",
     "start": "npx node build/index.js",
     "dev-old": "tsc -w & nodemon src/index/js",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
@@ -20,6 +20,7 @@
     "@types/cors": "^2.8.13",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.14",
+    "@types/express-session": "^1.17.5",
     "@types/helmet": "^4.0.0",
     "@types/mysql": "^2.15.21",
     "@types/node": "^18.11.11",
@@ -29,12 +30,15 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "argon2": "^0.30.2",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "cyclic-dynamodb": "0.0.21",
     "dotenv": "^16.0.3",
     "env-cmd": "^10.1.0",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "helmet": "^6.0.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",

@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
+import session from "express-session";
 
 import AppRoutes from './routes/index'; 
 import { itemsRouter } from "./items/items.router";
@@ -9,6 +10,7 @@ import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
 
 import { mySqlConnection, mysql_connection } from "./server";
+import db_seq from "./db";
 
 dotenv.config();
 if (!process.env.PORT) {
@@ -55,6 +57,16 @@ export default class App {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({extended: true}));
+    this.app.use(session({
+      resave: false,
+      saveUninitialized: false,
+      secret: 't@1k0ch3ng',
+      name: 'secretName',
+      cookie: {
+          sameSite: true,
+          maxAge: 60000
+      },
+  }))
   }
 
   // Initialize all the routes of the application
@@ -71,7 +83,12 @@ export default class App {
     });
   }
   
-  connectToMySql() {
-    mySqlConnection();
+  async connectToMySql() {
+    await db_seq.sync(({ force: true })).then(res => {
+      console.log('log res', res)
+    }).catch(err => {
+      console.log('seq err', err)
+    });
+    // mySqlConnection();
   }
 }

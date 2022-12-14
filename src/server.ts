@@ -1,5 +1,6 @@
 import mySql from "mysql";
 import * as dotenv from "dotenv";
+// import { Sequelize } from "sequelize";
 dotenv.config();
 
 // export const mysql_connection = mySql.createConnection({
@@ -8,6 +9,11 @@ dotenv.config();
 //   database: 'u378097923_arch_parking',
 //   user: 'u378097923_architect_park',
 //   password: 'Parkingarchitect1'
+// })
+
+// const DB_Sequelize = new Sequelize('radjaparking', 'foqmnvgjwkqr8ld9ap7x', 'pscale_pw_aIOcoWPGE9YCB5YR1pft1dNEF5oOMRhZWkgPUpurNpc', {
+//   host: 'ap-southeast.connect.psdb.cloud',
+//   dialect: 'mysql'
 // })
 export let mysql_connection: any
 export function mySqlConnection() {
