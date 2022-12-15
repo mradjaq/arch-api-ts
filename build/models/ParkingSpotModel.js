@@ -45,5 +45,6 @@ ReservationModel_1.default.hasOne(ParkingSpot);
 ParkingSpot.belongsTo(ReservationModel_1.default, { foreignKey: {
         name: 'reservationUuid',
         field: 'reservationUuid',
+        allowNull: true
     }, foreignKeyConstraint: true });
-exports.default = ReservationModel_1.default;
+exports.default = ParkingSpot;

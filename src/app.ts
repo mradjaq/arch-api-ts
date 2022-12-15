@@ -102,7 +102,7 @@ export default class App {
 
   
   async connectToMySql() {
-    // await db_seq.sync()
+    // await db_seq.sync({ alter: true})
     //   .then(() => {
     //     console.log('[SEQUELIZE SUCCESS SYNC]')
     //   })

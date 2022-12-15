@@ -9,10 +9,10 @@ const Reservation = db.define('reservation', {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    allowNull: true,
+    // validate: {
+    //   notEmpty: true
+    // }
   },
   parking_spot_id: {
     type: DataTypes.STRING,

@@ -43,18 +43,18 @@ Reservation.hasOne(ParkingSpot);
 ParkingSpot.belongsTo(Reservation, { foreignKey: {
   name: 'reservationUuid',
   field: 'reservationUuid',
+  allowNull: true
 } , foreignKeyConstraint: true})
 
-export default Reservation;
+export default ParkingSpot;
 interface IParkingSpot {
   uuid?: string;
   floor: number;
   spot_no: number;
   status: string;
+  reservationUuid?: string;
 }
-interface ParkingSpotInstance
-  extends Model<IParkingSpot>,
-    IParkingSpot {
-      createdAt?: Date;
-      updatedAt?: Date;
-    }
+interface ParkingSpotInstance extends Model<IParkingSpot>, IParkingSpot {
+  createdAt?: Date;
+  updatedAt?: Date;
+}

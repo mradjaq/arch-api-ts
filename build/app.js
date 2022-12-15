@@ -112,7 +112,7 @@ class App {
     }
     connectToMySql() {
         return __awaiter(this, void 0, void 0, function* () {
-            // await db_seq.sync()
+            // await db_seq.sync({ alter: true})
             //   .then(() => {
             //     console.log('[SEQUELIZE SUCCESS SYNC]')
             //   })
