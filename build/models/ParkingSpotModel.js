@@ -38,13 +38,6 @@ const ParkingSpot = db_1.default.define('parkingspot', {
             notEmpty: true,
         }
     },
-    // reservation_uuid: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate: {
-    //     notEmpty: true,
-    //   }
-    // },
 }, {
     freezeTableName: true
 });

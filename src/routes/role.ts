@@ -1,16 +1,11 @@
 import express from 'express';
+import { isParkingManagement, isUserManagement, verifyUser } from '../middleware/auth-user.middleware';
 import RoleController from '../controllers/role.controller';
 const roleRoutes = express.Router();
 const controller = new RoleController();
 
-// userRoutes.get('/fetch', controller.getAllPosts);
-// userRoutes.post('/create', controller.createAPost);
-// userRoutes.post('/test-get', controller.getTest);
-// userRoutes.get('/test-halo', controller.testHalo);
-// userRoutes.get('/users', controller.getAllUser);
-// userRoutes.get('/users/:uuid', controller.getUserByUUID);
-roleRoutes.post('/role', controller.createRole);
-// userRoutes.patch('/users/:uuid', controller.updateUser);
-// userRoutes.delete('/users/:uuid', controller.deleteUser);
+roleRoutes.get('/role', verifyUser, isUserManagement, controller.getAllRole);
+roleRoutes.post('/role', verifyUser, isUserManagement, controller.createRole);
+roleRoutes.patch('/role/:uuid', verifyUser, isUserManagement, controller.updateRole);
 
 export default roleRoutes;
