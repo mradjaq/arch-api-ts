@@ -1,29 +1,41 @@
 import UserModel from "../models/UserModel";
 import argon2 from "argon2";
 import express from 'express';
+import RoleModel from "../models/RoleModel";
 import session from "express-session";
 
 export default class Authenthication {
   login = async (request: express.Request, response: express.Response) => {
-    const user = await UserModel.findOne({
-      attributes: ['uuid', 'username', 'password','email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
-      where: {
-        email: request.body.email
-      }
-    });
-    if (!user) return response.status(404).json({msg: "User tidak ditemukan"});
-
-    const match = await argon2.verify(user.password, request.body.password);
-    if (!match) return response.status(400).json({msg: "Password salah"}); 
-
-    request.session.user_id = user.uuid as string;
-    const uuid = user.uuid
-    const name = user.username;
-    const email = user.email;
-
-    response.status(200).json({uuid, name, email});
+    try {
+      const user = await UserModel.findOne({
+        attributes: ['uuid', 'username', 'password','email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+        where: {
+          email: request.body.email
+        }
+      });
+      if (!user) return response.status(404).json({msg: "User tidak ditemukan"});
+  
+      const match = await argon2.verify(user.password, request.body.password);
+      if (!match) return response.status(400).json({msg: "Password salah"});
+  
+      let user_role = await RoleModel.findOne({
+        attributes: ['uuid', 'name'],
+        where: {
+          uuid: user.roleUuid
+        }
+      })
+  
+      request.session.user_id = user.uuid as string;
+      const uuid = user.uuid
+      const name = user.username;
+      const email = user.email;
+      const role = user_role?.name;
+      response.status(200).json({uuid, name, email, role});
+    
+    } catch (error: any) {
+      response.status(500).json({msg: error.message});
+    }
   }
-
   logout = async (request: express.Request, response: express.Response)=> {
     request.session.destroy((err: any) => {
       if (err) return response.status(400).json({msg: "gagal logout"})
@@ -36,13 +48,27 @@ export default class Authenthication {
       return response.status(401).json({msg: "Mohon login kembali ke akun anda : "})
     }
     const user = await UserModel.findOne({
-      attributes: ['uuid', 'username', 'email'],
+      attributes: ['uuid', 'username', 'email', 'roleUuid'],
       where: {
         uuid: request.session.user_id
       }
     });
 
+    
     if (!user) return response.status(404).json({msg: "User tidak ditemukan"});
-    response.status(200).json(user);
+    let user_role = await RoleModel.findOne({
+      attributes: ['uuid', 'name'],
+      where: {
+        uuid: user?.roleUuid
+      }
+    })
+
+    const json_response = {
+      uuid: user.uuid,
+      name: user.username,
+      email: user.email,
+      role: user_role?.name
+    }
+    response.status(200).json(json_response);
   }
 }

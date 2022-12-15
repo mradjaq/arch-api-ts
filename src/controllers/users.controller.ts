@@ -7,19 +7,14 @@ import { Error } from 'sequelize';
 
 class UserController {
 	// Object of User model
+  role = {
+    user: 'd7f0cc5e-7fb7-4f9d-824b-672eaf5be908',
+    user_management: '03b671d1-5617-48cd-9e02-76b66cfe35e6',
+    parking_management: '71fc96e8-4f5f-4d54-a480-b0529644b07e'
+  }
   constructor() {
     UserModel.sync();
   }
-  // getTest = (request: express.Request, response: express.Response) => {
-  //   console.log('Requset', request.body)
-  //     let query = 'SELECT * FROM radjaparking.test WHERE name='${request.body.name}';`
-  //     mysql_connection.query(query, (err: any, result: any) => {
-  //       if (err) console.log("ERR", err);        
-  //       else response.send({
-  //         data: result
-  //       })
-  //     })
-  // }
 
   testHalo= (request: express.Request, response: express.Response) => {
     response.send('GALLOOO')
@@ -40,7 +35,7 @@ class UserController {
   getUserByUUID = async (request: express.Request, response: express.Response) => {
     try {
       const res = await UserModel.findOne({
-        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservationUuid', 'token', 'createdAt', 'updatedAt'],
         where: {
           uuid: request.params.uuid
         }
@@ -52,7 +47,7 @@ class UserController {
   }
 
   createUser = async (request: express.Request, response: express.Response) => {
-    const { name, email, password, confPassword, vehicle_no } = request.body;
+    const { name, email, password, confPassword, vehicle_no, roleUuid } = request.body;
     if (password !== confPassword) return response.status(400).json({
       msg: 'Password dan Password konfirmasi tidak sama'
     })
@@ -63,13 +58,36 @@ class UserController {
         username: name,
         email,
         password: hashPassword,
-        vehicle_no
+        vehicle_no,
+        roleUuid: roleUuid
       });
       response.status(201).json({msg: "Berhasil membuat user"})
     } catch (error: any) {
       response.status(400).json({msg: error.message})
     }
   }
+
+  registerUser = async (request: express.Request, response: express.Response) => {
+    const { name, email, password, confPassword, vehicle_no, roleUuid } = request.body;
+    if (password !== confPassword) return response.status(400).json({
+      msg: 'Password dan Password konfirmasi tidak sama'
+    })
+    
+    const hashPassword = await argon2.hash(password)
+    try {
+      await UserModel.create({
+        username: name,
+        email,
+        password: hashPassword,
+        vehicle_no,
+        roleUuid: this.role.user // MRQ: USER ROLEUIUID
+      });
+      response.status(201).json({msg: "Berhasil Melakukan pendaftaran"})
+    } catch (error: any) {
+      response.status(400).json({msg: error.message})
+    }
+  }
+
   updateUser = async (request: express.Request, response: express.Response) => {
     try {
       const user = await UserModel.findOne({

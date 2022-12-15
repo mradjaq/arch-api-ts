@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isUserManagement = exports.verifyUser = void 0;
+exports.isParkingManagement = exports.isUserManagement = exports.verifyUser = void 0;
 const UserModel_1 = __importDefault(require("../models/UserModel"));
+const RoleModel_1 = __importDefault(require("../models/RoleModel"));
 const verifyUser = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!request.session.user_id) {
@@ -41,18 +42,23 @@ exports.verifyUser = verifyUser;
 const isUserManagement = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield UserModel_1.default.findOne({
-            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
             where: {
                 uuid: request.session.user_id
             }
         });
         if (!user)
             return response.status(404).json({ msg: "User tidak ditemukan" });
-        /**
-         * @todo harus join table biar dapet nama role
-         */
-        // if (user.role) return response.status(403).json({msg: "Access Denied"});
-        // request.session.role = user.role
+        else {
+            let role = yield RoleModel_1.default.findOne({
+                attributes: ['uuid', 'name'],
+                where: {
+                    uuid: user.roleUuid
+                }
+            });
+            if ((role === null || role === void 0 ? void 0 : role.name) !== 'USER MANAGEMENT')
+                return response.status(403).json({ msg: "Access Denied" });
+        }
         next();
     }
     catch (error) {
@@ -62,3 +68,32 @@ const isUserManagement = (request, response, next) => __awaiter(void 0, void 0, 
     }
 });
 exports.isUserManagement = isUserManagement;
+const isParkingManagement = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield UserModel_1.default.findOne({
+            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+            where: {
+                uuid: request.session.user_id
+            }
+        });
+        if (!user)
+            return response.status(404).json({ msg: "User tidak ditemukan" });
+        else {
+            let role = yield RoleModel_1.default.findOne({
+                attributes: ['uuid', 'name'],
+                where: {
+                    uuid: user.roleUuid
+                }
+            });
+            if ((role === null || role === void 0 ? void 0 : role.name) !== 'PARKING MANAGEMENT')
+                return response.status(403).json({ msg: "Access Denied" });
+        }
+        next();
+    }
+    catch (error) {
+        console.log('err auth-middleware', error);
+        response.status(500).json({ msg: error.message });
+        next(error);
+    }
+});
+exports.isParkingManagement = isParkingManagement;

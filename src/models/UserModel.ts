@@ -78,7 +78,7 @@ interface IUser {
   vehicle_no: string;
   reservation_id?: string;
   token?: string;
-  role_uuid?: string;
+  roleUuid?: string;
 }
 
 /*

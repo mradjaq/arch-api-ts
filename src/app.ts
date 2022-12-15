@@ -6,7 +6,6 @@ import session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
 
 import AppRoutes from './routes/index'; 
-import { itemsRouter } from "./items/items.router";
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
 
@@ -103,12 +102,12 @@ export default class App {
 
   
   async connectToMySql() {
-    await db_seq.sync({ force: true, alter: true })
-      .then(() => {
-        console.log('[SEQUELIZE SUCCESS SYNC]')
-      })
-      .catch((err: any) => {
-        console.log('[SEQUELIZE ERR SYNC]', err)
-      });
+    // await db_seq.sync()
+    //   .then(() => {
+    //     console.log('[SEQUELIZE SUCCESS SYNC]')
+    //   })
+    //   .catch((err: any) => {
+    //     console.log('[SEQUELIZE ERR SYNC]', err)
+    //   });
   }
 }

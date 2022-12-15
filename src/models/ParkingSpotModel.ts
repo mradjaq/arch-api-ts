@@ -1,10 +1,10 @@
-import Sequelize from "sequelize";
+import Sequelize, { Model } from "sequelize";
 import db from "../db";
 import Reservation from "./ReservationModel";
 
 const { DataTypes } = Sequelize;
 
-const ParkingSpot = db.define('parkingspot', {
+const ParkingSpot = db.define<ParkingSpotInstance>('parkingspot', {
   uuid: {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
@@ -35,13 +35,6 @@ const ParkingSpot = db.define('parkingspot', {
       notEmpty: true,
     }
   },
-  // reservation_uuid: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  //   validate: {
-  //     notEmpty: true,
-  //   }
-  // },
 }, {
   freezeTableName: true
 })
@@ -53,3 +46,15 @@ ParkingSpot.belongsTo(Reservation, { foreignKey: {
 } , foreignKeyConstraint: true})
 
 export default Reservation;
+interface IParkingSpot {
+  uuid?: string;
+  floor: number;
+  spot_no: number;
+  status: string;
+}
+interface ParkingSpotInstance
+  extends Model<IParkingSpot>,
+    IParkingSpot {
+      createdAt?: Date;
+      updatedAt?: Date;
+    }
