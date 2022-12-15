@@ -49,5 +49,8 @@ const ParkingSpot = db_1.default.define('parkingspot', {
     freezeTableName: true
 });
 ReservationModel_1.default.hasOne(ParkingSpot);
-ParkingSpot.belongsTo(ReservationModel_1.default, { foreignKey: 'reservation_uuid' });
+ParkingSpot.belongsTo(ReservationModel_1.default, { foreignKey: {
+        name: 'reservationUuid',
+        field: 'reservationUuid',
+    }, foreignKeyConstraint: true });
 exports.default = ReservationModel_1.default;

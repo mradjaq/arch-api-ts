@@ -1,5 +1,6 @@
 import Sequelize, { Model, Optional } from "sequelize";
 import db from "../db";
+import Reservation from "./ReservationModel";
 import Role from "./RoleModel";
 
 const { DataTypes } = Sequelize;
@@ -57,13 +58,16 @@ const Users = db.define<UserInstance>('users', {
     validate: {
       notEmpty: true,
     }
-  }
+  },
 }, {
   freezeTableName: true
 })
 
+Reservation.hasOne(Users);
+Users.belongsTo(Reservation, { foreignKey: 'reservationUuid' });
 Role.hasMany(Users);
-// Users.belongsTo(Role, { foreignKey: 'role_uuid' })
+Users.belongsTo(Role, { foreignKey: 'roleUuid' });
+
 
 export default Users;
 interface IUser {
@@ -72,8 +76,9 @@ interface IUser {
   email: string;
   password: string;
   vehicle_no: string;
-  reservation_id?: string
-  token?: string
+  reservation_id?: string;
+  token?: string;
+  role_uuid?: string;
 }
 
 /*

@@ -135,7 +135,7 @@ class UserController {
                 response.status(500).json({ msg: error.message });
             }
         });
-        // UserModel.sync();
+        UserModel_1.default.sync();
     }
 }
 exports.default = UserController;

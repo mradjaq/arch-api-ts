@@ -8,7 +8,7 @@ import { Error } from 'sequelize';
 class UserController {
 	// Object of User model
   constructor() {
-    // UserModel.sync();
+    UserModel.sync();
   }
   // getTest = (request: express.Request, response: express.Response) => {
   //   console.log('Requset', request.body)

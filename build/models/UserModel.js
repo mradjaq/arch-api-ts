@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importDefault(require("sequelize"));
 const db_1 = __importDefault(require("../db"));
+const ReservationModel_1 = __importDefault(require("./ReservationModel"));
 const RoleModel_1 = __importDefault(require("./RoleModel"));
 const { DataTypes } = sequelize_1.default;
 const Users = db_1.default.define('users', {
@@ -60,10 +61,12 @@ const Users = db_1.default.define('users', {
         validate: {
             notEmpty: true,
         }
-    }
+    },
 }, {
     freezeTableName: true
 });
+ReservationModel_1.default.hasOne(Users);
+Users.belongsTo(ReservationModel_1.default, { foreignKey: 'reservationUuid' });
 RoleModel_1.default.hasMany(Users);
-// Users.belongsTo(Role, { foreignKey: 'role_uuid' })
+Users.belongsTo(RoleModel_1.default, { foreignKey: 'roleUuid' });
 exports.default = Users;

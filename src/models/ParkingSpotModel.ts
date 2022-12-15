@@ -47,6 +47,9 @@ const ParkingSpot = db.define('parkingspot', {
 })
 
 Reservation.hasOne(ParkingSpot);
-ParkingSpot.belongsTo(Reservation, { foreignKey: 'reservation_uuid' })
+ParkingSpot.belongsTo(Reservation, { foreignKey: {
+  name: 'reservationUuid',
+  field: 'reservationUuid',
+} , foreignKeyConstraint: true})
 
 export default Reservation;

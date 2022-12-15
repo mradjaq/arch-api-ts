@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const ParkingSpotModel_1 = __importDefault(require("../models/ParkingSpotModel"));
 class ParkingSpotController {
     constructor() {
-        // ParkingSpotModel.sync();
+        ParkingSpotModel_1.default.sync();
     }
 }
 exports.default = ParkingSpotController;

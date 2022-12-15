@@ -4,7 +4,7 @@ import argon2 from "argon2";
 
 class RoleController {
   constructor() {
-    // RoleModel.sync();
+    RoleModel.sync();
   }
   createRole = async (request: express.Request, response: express.Response) => {
     const { name } = request.body;

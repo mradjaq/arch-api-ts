@@ -8,6 +8,7 @@ const Reservation = db.define('reservation', {
   uuid: {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
     allowNull: false,
     validate: {
       notEmpty: true
@@ -38,7 +39,5 @@ const Reservation = db.define('reservation', {
   freezeTableName: true
 })
 
-Users.hasOne(Reservation);
-Reservation.belongsTo(Users, { foreignKey: 'user_uuid' })
 
 export default Reservation;
