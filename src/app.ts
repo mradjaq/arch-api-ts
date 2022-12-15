@@ -83,7 +83,7 @@ export default class App {
         store: this.store
       }
     ))
-    // this.store.sync();
+    this.store.sync();
   }
 
   // Initialize all the routes of the application
