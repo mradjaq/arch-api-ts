@@ -49,19 +49,6 @@ export default class App {
         data: req.body
       });
     })
-
-    // test get data from remote database
-    // this.app.get('/test-get', (req: Request, res: Response) => {
-    //   let query = "SELECT * FROM radjaparking.test;"
-    //   mysql_connection.query(query, (err: any, result: any) => {
-    //     if (err) console.log("ERR", err);        
-    //     else res.send({
-    //       data: result
-    //     })
-        
-    //   })
-    // })
-
   }
 
   initMiddlewares() {

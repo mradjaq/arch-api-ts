@@ -68,16 +68,6 @@ class App {
                 data: req.body
             });
         });
-        // test get data from remote database
-        // this.app.get('/test-get', (req: Request, res: Response) => {
-        //   let query = "SELECT * FROM radjaparking.test;"
-        //   mysql_connection.query(query, (err: any, result: any) => {
-        //     if (err) console.log("ERR", err);        
-        //     else res.send({
-        //       data: result
-        //     })
-        //   })
-        // })
     }
     initMiddlewares() {
         this.app.use((0, helmet_1.default)());
@@ -96,7 +86,7 @@ class App {
             },
             store: this.store
         }));
-        // this.store.sync();
+        this.store.sync();
     }
     // Initialize all the routes of the application
     initAllApiRoutes(router) {
@@ -112,13 +102,13 @@ class App {
     }
     connectToMySql() {
         return __awaiter(this, void 0, void 0, function* () {
-            // await db_seq.sync({ alter: true})
-            //   .then(() => {
-            //     console.log('[SEQUELIZE SUCCESS SYNC]')
-            //   })
-            //   .catch((err: any) => {
-            //     console.log('[SEQUELIZE ERR SYNC]', err)
-            //   });
+            yield db_1.default.sync({ alter: true })
+                .then(() => {
+                console.log('[SEQUELIZE SUCCESS SYNC]');
+            })
+                .catch((err) => {
+                console.log('[SEQUELIZE ERR SYNC]', err);
+            });
         });
     }
 }
