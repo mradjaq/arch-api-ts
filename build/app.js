@@ -40,6 +40,7 @@ const dotenv = __importStar(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_session_1 = __importDefault(require("express-session"));
+const connect_session_sequelize_1 = __importDefault(require("connect-session-sequelize"));
 const index_1 = __importDefault(require("./routes/index"));
 const db_1 = __importDefault(require("./db"));
 dotenv.config();
@@ -51,6 +52,10 @@ class App {
         this.app = (0, express_1.default)();
         this.port = parseInt(process.env.PORT, 10 || 200);
         this.appRoutes = new index_1.default();
+        this.sessionStore = (0, connect_session_sequelize_1.default)(express_session_1.default.Store);
+        this.store = new this.sessionStore({
+            db: db_1.default
+        });
         this.initMiddlewares();
         this.initAllApiRoutes(this.appRoutes.routers);
     }
@@ -81,14 +86,17 @@ class App {
         this.app.use(express_1.default.urlencoded({ extended: true }));
         this.app.use((0, express_session_1.default)({
             resave: false,
-            saveUninitialized: false,
+            saveUninitialized: true,
             secret: 't@1k0ch3ng',
             name: 'secretName',
             cookie: {
+                secure: 'auto',
                 sameSite: true,
                 maxAge: 60000
             },
+            store: this.store
         }));
+        // this.store.sync();
     }
     // Initialize all the routes of the application
     initAllApiRoutes(router) {
@@ -105,7 +113,7 @@ class App {
     connectToMySql() {
         return __awaiter(this, void 0, void 0, function* () {
             // await db_seq.authenticate().then(async () => {
-            yield db_1.default.sync();
+            // await db_seq.sync();
             // })
             // .then(res => {
             //   console.log('log res', res)

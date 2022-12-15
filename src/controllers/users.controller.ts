@@ -8,7 +8,7 @@ import { Error } from 'sequelize';
 class UserController {
 	// Object of User model
   constructor() {
-    UserModel.sync();
+    // UserModel.sync();
   }
   // getTest = (request: express.Request, response: express.Response) => {
   //   console.log('Requset', request.body)
@@ -18,7 +18,6 @@ class UserController {
   //       else response.send({
   //         data: result
   //       })
-        
   //     })
   // }
 
@@ -26,12 +25,12 @@ class UserController {
     response.send('GALLOOO')
   }
   
-  getAllUser = async (request: express.Request, response: express.Response) => {
+  getAllUser = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     try {
       const res = await UserModel.findAll({
         attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt']
-      }
-      );
+      });
+
       response.status(200).json(res)
     } catch (error: any) {
       response.status(500).json({msg: error.message})

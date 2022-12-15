@@ -31,7 +31,7 @@ class UserController {
         this.testHalo = (request, response) => {
             response.send('GALLOOO');
         };
-        this.getAllUser = (request, response) => __awaiter(this, void 0, void 0, function* () {
+        this.getAllUser = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const res = yield UserModel_1.default.findAll({
                     attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt']
@@ -135,7 +135,7 @@ class UserController {
                 response.status(500).json({ msg: error.message });
             }
         });
-        UserModel_1.default.sync();
+        // UserModel.sync();
     }
 }
 exports.default = UserController;

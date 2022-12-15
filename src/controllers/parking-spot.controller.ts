@@ -4,7 +4,7 @@ import argon2 from "argon2";
 
 class ParkingSpotController {
   constructor() {
-    ParkingSpotModel.sync();
+    // ParkingSpotModel.sync();
   }
 }
 

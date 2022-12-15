@@ -28,7 +28,7 @@ class RoleController {
             }
         });
         this.updateRole = (request, response) => { };
-        RoleModel_1.default.sync();
+        // RoleModel.sync();
     }
 }
 exports.default = RoleController;

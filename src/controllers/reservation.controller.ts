@@ -4,7 +4,7 @@ import argon2 from "argon2";
 
 class ReservationController {
   constructor() {
-    ReservationModel.sync();
+    // ReservationModel.sync();
   }
 }
 

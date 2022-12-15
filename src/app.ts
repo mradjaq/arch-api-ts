@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import session from "express-session";
+import SequelizeStore from "connect-session-sequelize";
 
 import AppRoutes from './routes/index'; 
 import { itemsRouter } from "./items/items.router";
@@ -15,6 +16,7 @@ import db_seq from "./db";
 declare module 'express-session' {
   interface SessionData {
     user_id: string;
+    role: string;
   }
 }
 
@@ -27,7 +29,11 @@ if (!process.env.PORT) {
 export default class App {
   public app: express.Application = express();
   public port: number = parseInt(process.env.PORT as string, 10 || 200);
-  appRoutes = new AppRoutes()
+  appRoutes = new AppRoutes();
+  sessionStore = SequelizeStore(session.Store);
+  store = new this.sessionStore({
+    db: db_seq
+  })
 
   constructor() {
     this.initMiddlewares();
@@ -64,16 +70,21 @@ export default class App {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({extended: true}));
-    this.app.use(session({
-      resave: false,
-      saveUninitialized: false,
-      secret: 't@1k0ch3ng',
-      name: 'secretName',
-      cookie: {
+    this.app.use(session(
+      {
+        resave: false,
+        saveUninitialized: true,
+        secret: 't@1k0ch3ng',
+        name: 'secretName',
+        cookie: {
+          secure: 'auto',
           sameSite: true,
           maxAge: 60000
-      },
-  }))
+        },
+        store: this.store
+      }
+    ))
+    // this.store.sync();
   }
 
   // Initialize all the routes of the application
@@ -93,7 +104,7 @@ export default class App {
   
   async connectToMySql() {
     // await db_seq.authenticate().then(async () => {
-      await db_seq.sync();
+      // await db_seq.sync();
     // })
     // .then(res => {
     //   console.log('log res', res)
