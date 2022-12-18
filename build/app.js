@@ -102,13 +102,13 @@ class App {
     }
     connectToMySql() {
         return __awaiter(this, void 0, void 0, function* () {
-            // await db_seq.sync()
-            //   .then(() => {
-            //     console.log('[SEQUELIZE SUCCESS SYNC]')
-            //   })
-            //   .catch((err: any) => {
-            //     console.log('[SEQUELIZE ERR SYNC]', err)
-            //   });
+            yield db_1.default.sync({ alter: true })
+                .then(() => {
+                console.log('[SEQUELIZE SUCCESS SYNC]');
+            })
+                .catch((err) => {
+                console.log('[SEQUELIZE ERR SYNC]', err);
+            });
         });
     }
 }

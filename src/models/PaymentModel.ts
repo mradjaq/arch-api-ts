@@ -1,33 +1,43 @@
 import Sequelize, { Model, Optional } from "sequelize";
 import db from "../db";
+import Users from "./UserModel";
 import Reservation from "./ReservationModel";
 import Role from "./RoleModel";
 
 const { DataTypes } = Sequelize;
 
-const Wallet = db.define<WalletInstance>('wallet', {
+const Payment = db.define<PaymentInstance>('payment', {
   uuid: {
     type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
     allowNull: true
   },
-  balance: {
+  amount_due: {
     type: DataTypes.INTEGER,
     allowNull: true
+  },
+  paid: {
+    type: DataTypes.BOOLEAN,
   }
 }, {
   freezeTableName: true
 });
 
-export default Wallet;
+Reservation.hasOne(Payment);
+Payment.belongsTo(Reservation, { foreignKey: 'reservationUuid' });
 
-interface IWallet {
+
+export default Payment;
+
+interface IPayment {
   uuid?: string;
-  balance: number;
+  amount_due?: number;
+  paid?: boolean;
+  reservationUuid?: string;
 }
 
-interface WalletInstance extends Model<IWallet>, IWallet {
+interface PaymentInstance extends Model<IPayment>, IPayment {
   createdAt?: Date;
   updatedAt?: Date;
 }

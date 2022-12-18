@@ -60,7 +60,7 @@ const Users = db_1.default.define('users', {
     freezeTableName: true
 });
 ReservationModel_1.default.hasOne(Users);
-Users.belongsTo(ReservationModel_1.default, { foreignKey: 'reservationUuid' });
+Users.belongsTo(ReservationModel_1.default, { onDelete: 'CASCADE', foreignKey: { name: 'reservationUuid', field: 'reservationUuid', allowNull: true }, foreignKeyConstraint: true });
 RoleModel_1.default.hasMany(Users);
 Users.belongsTo(RoleModel_1.default, { foreignKey: 'roleUuid' });
 WalletModel_1.default.hasOne(Users);

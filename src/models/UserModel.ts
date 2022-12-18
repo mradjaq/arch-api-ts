@@ -58,8 +58,8 @@ const Users = db.define<UserInstance>('users', {
 })
 
 Reservation.hasOne(Users);
-Users.belongsTo(Reservation, { foreignKey: 'reservationUuid' });
-Role.hasMany(Users);
+Users.belongsTo(Reservation, { onDelete: 'CASCADE', foreignKey: { name: 'reservationUuid', field: 'reservationUuid', allowNull: true }, foreignKeyConstraint: true });
+Role.hasMany(Users); 
 Users.belongsTo(Role, { foreignKey: 'roleUuid' });
 Wallet.hasOne(Users);
 Users.belongsTo(Wallet, { foreignKey: 'walletUuid' });
@@ -73,7 +73,7 @@ interface IUser {
   password?: string;
   vehicle_no?: string;
   // reservation_id?: string;
-  reservationUuid?: string;
+  reservationUuid?: string | null;
   token?: string;
   roleUuid?: string;
   walletUuid?: string;

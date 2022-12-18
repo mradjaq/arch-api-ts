@@ -40,7 +40,7 @@ const ParkingSpot = db.define<ParkingSpotInstance>('parkingspot', {
 })
 
 Reservation.hasOne(ParkingSpot);
-ParkingSpot.belongsTo(Reservation, { foreignKey: {
+ParkingSpot.belongsTo(Reservation, { onDelete: 'CASCADE', foreignKey: {
   name: 'reservationUuid',
   field: 'reservationUuid',
   allowNull: true
@@ -52,7 +52,7 @@ interface IParkingSpot {
   floor: number;
   spot_no: number;
   status: string;
-  reservationUuid?: string;
+  reservationUuid?: string | null;
 }
 interface ParkingSpotInstance extends Model<IParkingSpot>, IParkingSpot {
   createdAt?: Date;

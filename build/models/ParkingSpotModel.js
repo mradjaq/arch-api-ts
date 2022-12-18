@@ -42,7 +42,7 @@ const ParkingSpot = db_1.default.define('parkingspot', {
     freezeTableName: true
 });
 ReservationModel_1.default.hasOne(ParkingSpot);
-ParkingSpot.belongsTo(ReservationModel_1.default, { foreignKey: {
+ParkingSpot.belongsTo(ReservationModel_1.default, { onDelete: 'CASCADE', foreignKey: {
         name: 'reservationUuid',
         field: 'reservationUuid',
         allowNull: true
