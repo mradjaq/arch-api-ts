@@ -21,7 +21,7 @@ const verifyUser = (request, response, next) => __awaiter(void 0, void 0, void 0
             return response.status(401).json({ msg: "Mohon login kembali ke akun anda : " });
         }
         const user = yield UserModel_1.default.findOne({
-            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt'],
             where: {
                 uuid: request.session.user_id
             }
@@ -42,7 +42,7 @@ exports.verifyUser = verifyUser;
 const isUserManagement = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield UserModel_1.default.findOne({
-            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
             where: {
                 uuid: request.session.user_id
             }
@@ -71,7 +71,7 @@ exports.isUserManagement = isUserManagement;
 const isParkingManagement = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield UserModel_1.default.findOne({
-            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+            attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
             where: {
                 uuid: request.session.user_id
             }

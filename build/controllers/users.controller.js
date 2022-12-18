@@ -29,7 +29,7 @@ class UserController {
         this.getAllUser = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const res = yield UserModel_1.default.findAll({
-                    attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt']
+                    attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt']
                 });
                 response.status(200).json(res);
             }
@@ -96,7 +96,7 @@ class UserController {
         this.updateUser = (request, response) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield UserModel_1.default.findOne({
-                    attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+                    attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt'],
                     where: {
                         uuid: request.params.uuid
                     }
@@ -134,7 +134,7 @@ class UserController {
         this.deleteUser = (request, response) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield UserModel_1.default.findOne({
-                    attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+                    attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt'],
                     where: {
                         uuid: request.params.uuid
                     }

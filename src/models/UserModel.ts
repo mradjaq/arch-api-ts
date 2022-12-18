@@ -45,13 +45,6 @@ const Users = db.define<UserInstance>('users', {
       notEmpty: true,
     }
   },
-  reservation_id: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    validate: {
-      notEmpty: true,
-    }
-  },
   token: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -72,11 +65,12 @@ Users.belongsTo(Role, { foreignKey: 'roleUuid' });
 export default Users;
 interface IUser {
   uuid?: string;
-  username: string;
-  email: string;
-  password: string;
-  vehicle_no: string;
-  reservation_id?: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  vehicle_no?: string;
+  // reservation_id?: string;
+  reservationUuid?: string;
   token?: string;
   roleUuid?: string;
 }

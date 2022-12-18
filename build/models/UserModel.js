@@ -48,13 +48,6 @@ const Users = db_1.default.define('users', {
             notEmpty: true,
         }
     },
-    reservation_id: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true,
-        }
-    },
     token: {
         type: DataTypes.STRING,
         allowNull: true,

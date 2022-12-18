@@ -23,7 +23,7 @@ class UserController {
   getAllUser = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     try {
       const res = await UserModel.findAll({
-        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt']
+        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt']
       });
 
       response.status(200).json(res)
@@ -91,7 +91,7 @@ class UserController {
   updateUser = async (request: express.Request, response: express.Response) => {
     try {
       const user = await UserModel.findOne({
-        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt'],
         where: {
           uuid: request.params.uuid
         }
@@ -102,7 +102,7 @@ class UserController {
 
       let hashPassword = '';
       if(password == '' || password === null) {
-        hashPassword = user.password;
+        hashPassword = user.password as string;
       } else {
         hashPassword = await argon2.hash(password)
       }
@@ -130,7 +130,7 @@ class UserController {
   deleteUser = async (request: express.Request, response: express.Response) => {
     try {
       const user = await UserModel.findOne({
-        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+        attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt'],
         where: {
           uuid: request.params.uuid
         }

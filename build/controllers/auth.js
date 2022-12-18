@@ -20,7 +20,7 @@ class Authenthication {
         this.login = (request, response) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield UserModel_1.default.findOne({
-                    attributes: ['uuid', 'username', 'password', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+                    attributes: ['uuid', 'username', 'password', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
                     where: {
                         email: request.body.email
                     }

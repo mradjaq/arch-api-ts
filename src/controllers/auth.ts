@@ -8,14 +8,14 @@ export default class Authenthication {
   login = async (request: express.Request, response: express.Response) => {
     try {
       const user = await UserModel.findOne({
-        attributes: ['uuid', 'username', 'password','email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+        attributes: ['uuid', 'username', 'password','email', 'vehicle_no', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
         where: {
           email: request.body.email
         }
       });
       if (!user) return response.status(404).json({msg: "User tidak ditemukan"});
   
-      const match = await argon2.verify(user.password, request.body.password);
+      const match = await argon2.verify(user.password as string, request.body.password);
       if (!match) return response.status(400).json({msg: "Password salah"});
   
       let user_role = await RoleModel.findOne({

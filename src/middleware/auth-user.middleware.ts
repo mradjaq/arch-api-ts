@@ -8,7 +8,7 @@ export const verifyUser = async (request: express.Request, response: express.Res
       return response.status(401).json({msg: "Mohon login kembali ke akun anda : "})
     }
     const user = await UserModel.findOne({
-      attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt'],
+      attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt'],
       where: {
         uuid: request.session.user_id
       }
@@ -28,7 +28,7 @@ export const verifyUser = async (request: express.Request, response: express.Res
 export const isUserManagement = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
   try {
     const user = await UserModel.findOne({
-      attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+      attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
       where: {
         uuid: request.session.user_id
       }
@@ -56,7 +56,7 @@ export const isUserManagement = async (request: express.Request, response: expre
 export const isParkingManagement = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
   try {
     const user = await UserModel.findOne({
-      attributes: ['uuid', 'username', 'email', 'vehicle_no', 'reservation_id', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
+      attributes: ['uuid', 'username', 'email', 'vehicle_no', 'token', 'createdAt', 'updatedAt', 'roleUuid'],
       where: {
         uuid: request.session.user_id
       }
