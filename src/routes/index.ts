@@ -3,6 +3,7 @@ import parkingSpotRoutes from "./parking-spot";
 import roleRoutes from "./role";
 import reservationRoutes from "./reservation";
 import authRoutes from "./auth";
+import walletRoutes from "./wallet";
 
 
 export default class AppRoutes {
@@ -11,6 +12,7 @@ export default class AppRoutes {
     userRoutes,
     parkingSpotRoutes,
     roleRoutes,
-    reservationRoutes
+    reservationRoutes,
+    walletRoutes
   ]
 }

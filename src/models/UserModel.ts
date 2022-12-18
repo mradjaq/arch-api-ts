@@ -2,6 +2,7 @@ import Sequelize, { Model, Optional } from "sequelize";
 import db from "../db";
 import Reservation from "./ReservationModel";
 import Role from "./RoleModel";
+import Wallet from "./WalletModel";
 
 const { DataTypes } = Sequelize;
 
@@ -60,6 +61,8 @@ Reservation.hasOne(Users);
 Users.belongsTo(Reservation, { foreignKey: 'reservationUuid' });
 Role.hasMany(Users);
 Users.belongsTo(Role, { foreignKey: 'roleUuid' });
+Wallet.hasMany(Users);
+Users.belongsTo(Wallet, { foreignKey: 'walletUuid' });
 
 
 export default Users;
@@ -73,6 +76,7 @@ interface IUser {
   reservationUuid?: string;
   token?: string;
   roleUuid?: string;
+  walletUuid?: string;
 }
 
 /*

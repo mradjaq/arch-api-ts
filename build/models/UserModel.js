@@ -7,6 +7,7 @@ const sequelize_1 = __importDefault(require("sequelize"));
 const db_1 = __importDefault(require("../db"));
 const ReservationModel_1 = __importDefault(require("./ReservationModel"));
 const RoleModel_1 = __importDefault(require("./RoleModel"));
+const WalletModel_1 = __importDefault(require("./WalletModel"));
 const { DataTypes } = sequelize_1.default;
 const Users = db_1.default.define('users', {
     uuid: {
@@ -62,4 +63,6 @@ ReservationModel_1.default.hasOne(Users);
 Users.belongsTo(ReservationModel_1.default, { foreignKey: 'reservationUuid' });
 RoleModel_1.default.hasMany(Users);
 Users.belongsTo(RoleModel_1.default, { foreignKey: 'roleUuid' });
+WalletModel_1.default.hasMany(Users);
+Users.belongsTo(WalletModel_1.default, { foreignKey: 'walletUuid' });
 exports.default = Users;

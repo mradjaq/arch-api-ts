@@ -1,6 +1,7 @@
-import express from 'express';
+import express, { response } from 'express';
 import UserModel from "../models/UserModel";
 import argon2 from "argon2";
+import WalletModel from "../models/WalletModel";
 import { mySqlConnection, mysql_connection } from "../server";
 import { Error } from 'sequelize';
 // import UserModel from '../models/user';
@@ -52,16 +53,18 @@ class UserController {
       msg: 'Password dan Password konfirmasi tidak sama'
     })
     
-    const hashPassword = await argon2.hash(password)
+    const hashPassword = await argon2.hash(password);
+    const wallet = await this.createUserWallet();
     try {
       await UserModel.create({
         username: name,
         email,
         password: hashPassword,
         vehicle_no,
-        roleUuid: roleUuid
+        roleUuid: roleUuid,
+        walletUuid: wallet?.uuid as string
       });
-      response.status(201).json({msg: "Berhasil membuat user"})
+      response.status(201).json({msg: "Berhasil membuat user"});
     } catch (error: any) {
       response.status(400).json({msg: error.message})
     }
@@ -74,13 +77,15 @@ class UserController {
     })
     
     const hashPassword = await argon2.hash(password)
+    const wallet = await this.createUserWallet();
     try {
       await UserModel.create({
         username: name,
         email,
         password: hashPassword,
         vehicle_no,
-        roleUuid: this.role.user // MRQ: USER ROLEUIUID
+        roleUuid: this.role.user, // MRQ: USER ROLEUIUID
+        walletUuid: wallet?.uuid as string
       });
       response.status(201).json({msg: "Berhasil Melakukan pendaftaran"})
     } catch (error: any) {
@@ -124,9 +129,10 @@ class UserController {
 
       response.status(201).json({msg: "Data User berhasil diupdate"})
     } catch (error: any) {
-      response.status(500).json({msg: error.message})
+      response.status(500).json({msg: error.message});
     }
   }
+
   deleteUser = async (request: express.Request, response: express.Response) => {
     try {
       const user = await UserModel.findOne({
@@ -149,6 +155,16 @@ class UserController {
       response.status(201).json({msg: "Data User berhasil dihapus"})
     } catch (error: any) {
       response.status(500).json({msg: error.message})
+    }
+  }
+
+  createUserWallet = async() => {
+    try {
+      const wallet = await WalletModel.create();
+      response.status(201).json({ wallet: wallet, msg: "berhasil membuat dompet" });
+      return wallet
+    } catch (error: any) {
+      response.status(500).json({ msg: error.message });
     }
   }
 }
