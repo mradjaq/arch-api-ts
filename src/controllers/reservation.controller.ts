@@ -19,6 +19,7 @@ class ReservationController {
         }
       });
       if(!parking_spot) return response.status(404).json({msg: "Tempat parkir tidak dapat ditemukan"});
+      if(parking_spot.reservationUuid) return response.status(404).json({msg: "Tempat parkir berada dalam pemesanan orang lain"});
 
       const reservation = await ReservationModel.create({
         parking_spot_id,
@@ -91,7 +92,7 @@ class ReservationController {
       const now = Date.now();
       var diff = now - created_date;
       var diffInHours = diff/1000/60/60; // Convert milliseconds to hours
-      console.log('diffInHours', diffInHours)
+      
       let updated_fee = diffInHours >= 1 ? reservation.fee * (diffInHours + 1) : reservation.fee;
 
       try {

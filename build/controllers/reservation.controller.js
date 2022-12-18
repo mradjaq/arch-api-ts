@@ -28,6 +28,8 @@ class ReservationController {
                 });
                 if (!parking_spot)
                     return response.status(404).json({ msg: "Tempat parkir tidak dapat ditemukan" });
+                if (parking_spot.reservationUuid)
+                    return response.status(404).json({ msg: "Tempat parkir berada dalam pemesanan orang lain" });
                 const reservation = yield ReservationModel_1.default.create({
                     parking_spot_id,
                     fee: 2000
@@ -87,16 +89,12 @@ class ReservationController {
         this.countTotalFee = (reservation, parking_spot_id) => {
             node_cron_1.default.schedule('* * * * * *', () => __awaiter(this, void 0, void 0, function* () {
                 var _a;
-                const created_date = (_a = reservation === null || reservation === void 0 ? void 0 : reservation.createdAt) === null || _a === void 0 ? void 0 : _a.getTime();
+                const created_date = ((_a = reservation === null || reservation === void 0 ? void 0 : reservation.createdAt) === null || _a === void 0 ? void 0 : _a.getTime()) || Date.now();
                 const now = Date.now();
-                console.log('created_date', created_date);
-                console.log('now', now);
                 var diff = now - created_date;
                 var diffInHours = diff / 1000 / 60 / 60; // Convert milliseconds to hours
                 console.log('diffInHours', diffInHours);
-                // let updated_fee = diffInHours >= 1 ? reservation.fee * (diffInHours + 1) : reservation.fee;
-                //test 
-                let updated_fee = diffInHours >= 0.002 ? reservation.fee * (diffInHours + 1) : reservation.fee;
+                let updated_fee = diffInHours >= 1 ? reservation.fee * (diffInHours + 1) : reservation.fee;
                 try {
                     yield ReservationModel_1.default.update({
                         fee: updated_fee,
@@ -113,13 +111,6 @@ class ReservationController {
                 }
             }));
         };
-        this.testFee = (request, response) => __awaiter(this, void 0, void 0, function* () {
-            const created_date = '2022-12-18T09:29:41.816Z';
-            const now = Date.now();
-            console.log('created_date', created_date);
-            console.log('now', now);
-            response.status(200).json({ msg: "ypp" });
-        });
         ReservationModel_1.default.sync();
     }
 }

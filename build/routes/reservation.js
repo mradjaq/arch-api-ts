@@ -10,5 +10,5 @@ const reservationRoutes = express_1.default.Router();
 const controller = new reservation_controller_1.default();
 reservationRoutes.post('/reservation/:parking_spot_id', auth_user_middleware_1.verifyUser, controller.createReservation);
 reservationRoutes.delete('/reservation/:reservation_uuid', auth_user_middleware_1.verifyUser, controller.cancelReservation);
-reservationRoutes.get('/reservation-test', controller.testFee);
+// reservationRoutes.get('/reservation-test', controller.testFee);
 exports.default = reservationRoutes;
