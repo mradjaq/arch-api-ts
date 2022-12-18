@@ -43,7 +43,7 @@ export const isUserManagement = async (request: express.Request, response: expre
         }
       })
       
-      if (role?.name !== 'USER MANAGEMENT') return response.status(403).json({msg: "Access Denied"});
+      if (role?.name !== 'USER MANAGEMENT' && role?.name !== 'SUPERADMIN') return response.status(403).json({msg: "Access Denied"});
     }
     next();
   } catch (error: any) {
@@ -71,7 +71,7 @@ export const isParkingManagement = async (request: express.Request, response: ex
         }
       })
       
-      if (role?.name !== 'PARKING MANAGEMENT') return response.status(403).json({msg: "Access Denied"});
+      if (role?.name !== 'PARKING MANAGEMENT' && role?.name !== 'SUPERADMIN') return response.status(403).json({msg: "Access Denied"});
     }
     next();
   } catch (error: any) {

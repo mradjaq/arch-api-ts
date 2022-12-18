@@ -63,6 +63,6 @@ ReservationModel_1.default.hasOne(Users);
 Users.belongsTo(ReservationModel_1.default, { foreignKey: 'reservationUuid' });
 RoleModel_1.default.hasMany(Users);
 Users.belongsTo(RoleModel_1.default, { foreignKey: 'roleUuid' });
-WalletModel_1.default.hasMany(Users);
+WalletModel_1.default.hasOne(Users);
 Users.belongsTo(WalletModel_1.default, { foreignKey: 'walletUuid' });
 exports.default = Users;

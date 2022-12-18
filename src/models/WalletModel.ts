@@ -5,6 +5,23 @@ import Role from "./RoleModel";
 
 const { DataTypes } = Sequelize;
 
+const Wallet = db.define<WalletInstance>('wallet', {
+  uuid: {
+    type: DataTypes.STRING,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+    allowNull: true
+  },
+  balance: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  }
+}, {
+  freezeTableName: true
+});
+
+export default Wallet;
+
 interface IWallet {
   uuid?: string;
   balance?: number;
@@ -14,23 +31,4 @@ interface WalletInstance extends Model<IWallet>, IWallet {
   createdAt?: Date;
   updatedAt?: Date;
 }
-
-const Wallet = db.define<WalletInstance>('Wallet', {
-  uuid: {
-    type: DataTypes.STRING,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  balance: {
-    type: DataTypes.INTEGER,
-    allowNull: true
-  }
-});
-
-export default Wallet;
-
 

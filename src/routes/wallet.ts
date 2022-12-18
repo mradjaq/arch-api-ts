@@ -4,6 +4,6 @@ import WalletController from '../controllers/wallet.controller';
 const walletRoutes = express.Router();
 const controller = new WalletController();
 
-walletRoutes.post('/role', verifyUser, controller.topupWalletBalance);
+walletRoutes.post('/wallet-topup', verifyUser, controller.topupWalletBalance);
 
 export default walletRoutes;

@@ -14,14 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const argon2_1 = __importDefault(require("argon2"));
+const WalletModel_1 = __importDefault(require("../models/WalletModel"));
 // import UserModel from '../models/user';
 class UserController {
     constructor() {
         // Object of User model
         this.role = {
-            user: 'd7f0cc5e-7fb7-4f9d-824b-672eaf5be908',
-            user_management: '03b671d1-5617-48cd-9e02-76b66cfe35e6',
-            parking_management: '71fc96e8-4f5f-4d54-a480-b0529644b07e'
+            user: '7bb3d328-ed9c-4d61-8a15-da2fe0427e52',
+            user_management: 'a2fc93d9-93c1-4fac-ba1c-780d29d22520',
+            parking_management: '35f88308-b04d-4b95-bdf4-815f23992a64'
         };
         this.testHalo = (request, response) => {
             response.send('GALLOOO');
@@ -59,12 +60,14 @@ class UserController {
                 });
             const hashPassword = yield argon2_1.default.hash(password);
             try {
+                const wallet_uuid = yield this.createUserWallet();
                 yield UserModel_1.default.create({
                     username: name,
                     email,
                     password: hashPassword,
                     vehicle_no,
-                    roleUuid: roleUuid
+                    roleUuid: roleUuid,
+                    walletUuid: wallet_uuid
                 });
                 response.status(201).json({ msg: "Berhasil membuat user" });
             }
@@ -80,12 +83,15 @@ class UserController {
                 });
             const hashPassword = yield argon2_1.default.hash(password);
             try {
+                const wallet_uuid = yield this.createUserWallet();
+                console.log('wallet_uuid', wallet_uuid);
                 yield UserModel_1.default.create({
                     username: name,
                     email,
                     password: hashPassword,
                     vehicle_no,
-                    roleUuid: this.role.user // MRQ: USER ROLEUIUID
+                    roleUuid: this.role.user,
+                    walletUuid: wallet_uuid
                 });
                 response.status(201).json({ msg: "Berhasil Melakukan pendaftaran" });
             }
@@ -153,6 +159,20 @@ class UserController {
             }
         });
         UserModel_1.default.sync();
+    }
+    createUserWallet() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const wallet = yield WalletModel_1.default.create({
+                    balance: 0
+                });
+                return wallet.uuid;
+            }
+            catch (error) {
+                throw error;
+                // response.status(500).json({ msg: error.message });
+            }
+        });
     }
 }
 exports.default = UserController;

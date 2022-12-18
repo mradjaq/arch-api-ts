@@ -8,6 +8,7 @@ const parking_spot_1 = __importDefault(require("./parking-spot"));
 const role_1 = __importDefault(require("./role"));
 const reservation_1 = __importDefault(require("./reservation"));
 const auth_1 = __importDefault(require("./auth"));
+const wallet_1 = __importDefault(require("./wallet"));
 class AppRoutes {
     constructor() {
         this.routers = [
@@ -15,7 +16,8 @@ class AppRoutes {
             users_1.default,
             parking_spot_1.default,
             role_1.default,
-            reservation_1.default
+            reservation_1.default,
+            wallet_1.default
         ];
     }
 }

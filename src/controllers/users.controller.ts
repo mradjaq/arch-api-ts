@@ -9,9 +9,9 @@ import { Error } from 'sequelize';
 class UserController {
 	// Object of User model
   role = {
-    user: 'd7f0cc5e-7fb7-4f9d-824b-672eaf5be908',
-    user_management: '03b671d1-5617-48cd-9e02-76b66cfe35e6',
-    parking_management: '71fc96e8-4f5f-4d54-a480-b0529644b07e'
+    user: '7bb3d328-ed9c-4d61-8a15-da2fe0427e52',
+    user_management: 'a2fc93d9-93c1-4fac-ba1c-780d29d22520',
+    parking_management: '35f88308-b04d-4b95-bdf4-815f23992a64'
   }
   constructor() {
     UserModel.sync();
@@ -54,15 +54,15 @@ class UserController {
     })
     
     const hashPassword = await argon2.hash(password);
-    const wallet = await this.createUserWallet();
     try {
+      const wallet_uuid = await this.createUserWallet();
       await UserModel.create({
         username: name,
         email,
         password: hashPassword,
         vehicle_no,
         roleUuid: roleUuid,
-        walletUuid: wallet?.uuid as string
+        walletUuid: wallet_uuid
       });
       response.status(201).json({msg: "Berhasil membuat user"});
     } catch (error: any) {
@@ -77,15 +77,16 @@ class UserController {
     })
     
     const hashPassword = await argon2.hash(password)
-    const wallet = await this.createUserWallet();
     try {
+      const wallet_uuid = await this.createUserWallet();
+      console.log('wallet_uuid', wallet_uuid)
       await UserModel.create({
         username: name,
         email,
         password: hashPassword,
         vehicle_no,
         roleUuid: this.role.user, // MRQ: USER ROLEUIUID
-        walletUuid: wallet?.uuid as string
+        walletUuid: wallet_uuid
       });
       response.status(201).json({msg: "Berhasil Melakukan pendaftaran"})
     } catch (error: any) {
@@ -158,13 +159,16 @@ class UserController {
     }
   }
 
-  createUserWallet = async() => {
+  async createUserWallet() {
     try {
-      const wallet = await WalletModel.create();
-      response.status(201).json({ wallet: wallet, msg: "berhasil membuat dompet" });
-      return wallet
+      const wallet = await WalletModel.create({
+        balance: 0
+      });
+      
+      return wallet.uuid
     } catch (error: any) {
-      response.status(500).json({ msg: error.message });
+      throw error;
+      // response.status(500).json({ msg: error.message });
     }
   }
 }

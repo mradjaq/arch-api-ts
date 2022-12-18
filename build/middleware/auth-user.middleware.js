@@ -56,7 +56,7 @@ const isUserManagement = (request, response, next) => __awaiter(void 0, void 0, 
                     uuid: user.roleUuid
                 }
             });
-            if ((role === null || role === void 0 ? void 0 : role.name) !== 'USER MANAGEMENT')
+            if ((role === null || role === void 0 ? void 0 : role.name) !== 'USER MANAGEMENT' && (role === null || role === void 0 ? void 0 : role.name) !== 'SUPERADMIN')
                 return response.status(403).json({ msg: "Access Denied" });
         }
         next();
@@ -85,7 +85,7 @@ const isParkingManagement = (request, response, next) => __awaiter(void 0, void 
                     uuid: user.roleUuid
                 }
             });
-            if ((role === null || role === void 0 ? void 0 : role.name) !== 'PARKING MANAGEMENT')
+            if ((role === null || role === void 0 ? void 0 : role.name) !== 'PARKING MANAGEMENT' && (role === null || role === void 0 ? void 0 : role.name) !== 'SUPERADMIN')
                 return response.status(403).json({ msg: "Access Denied" });
         }
         next();

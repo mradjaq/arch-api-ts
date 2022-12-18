@@ -61,7 +61,7 @@ Reservation.hasOne(Users);
 Users.belongsTo(Reservation, { foreignKey: 'reservationUuid' });
 Role.hasMany(Users);
 Users.belongsTo(Role, { foreignKey: 'roleUuid' });
-Wallet.hasMany(Users);
+Wallet.hasOne(Users);
 Users.belongsTo(Wallet, { foreignKey: 'walletUuid' });
 
 

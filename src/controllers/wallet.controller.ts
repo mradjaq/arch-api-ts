@@ -7,7 +7,9 @@ import { Error } from 'sequelize';
 // import UserModel from '../models/user';
 
 class WalletController {
-  constructor() {}
+  constructor() {
+    WalletModel.sync()
+  }
   
   topupWalletBalance = async (request: express.Request, response: express.Response) => {
     try {
