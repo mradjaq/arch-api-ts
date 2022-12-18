@@ -70,12 +70,29 @@ class ReservationController {
         }
       });
 
-      if(!reservation) return response.status(404).json({msg: "Pemesanan tidak dapat ditemukan"})
-      
+      if(!reservation) return response.status(404).json({msg: "Pemesanan tidak dapat ditemukan"});
+
+      const parking_spot = await ParkingSpotModel.findOne({
+        where: {
+          uuid: reservation?.parking_spot_id
+        }
+      });
+
+      if(!parking_spot) return response.status(404).json({msg: "Tempat parkir tidak dapat ditemukan"});
 
       await ReservationModel.destroy({
         where: {
           uuid: reservation.uuid
+        }
+      });
+
+      await ParkingSpotModel.update({
+        floor: parking_spot.floor,
+        spot_no: parking_spot.spot_no,
+        status: 'available'
+      }, {
+        where: {
+          uuid: parking_spot.uuid
         }
       });
 

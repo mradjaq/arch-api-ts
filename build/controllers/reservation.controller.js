@@ -75,9 +75,25 @@ class ReservationController {
                 });
                 if (!reservation)
                     return response.status(404).json({ msg: "Pemesanan tidak dapat ditemukan" });
+                const parking_spot = yield ParkingSpotModel_1.default.findOne({
+                    where: {
+                        uuid: reservation === null || reservation === void 0 ? void 0 : reservation.parking_spot_id
+                    }
+                });
+                if (!parking_spot)
+                    return response.status(404).json({ msg: "Tempat parkir tidak dapat ditemukan" });
                 yield ReservationModel_1.default.destroy({
                     where: {
                         uuid: reservation.uuid
+                    }
+                });
+                yield ParkingSpotModel_1.default.update({
+                    floor: parking_spot.floor,
+                    spot_no: parking_spot.spot_no,
+                    status: 'available'
+                }, {
+                    where: {
+                        uuid: parking_spot.uuid
                     }
                 });
                 response.status(201).json({ msg: "Berhasil membatalkan pemesanan" });
@@ -93,7 +109,6 @@ class ReservationController {
                 const now = Date.now();
                 var diff = now - created_date;
                 var diffInHours = diff / 1000 / 60 / 60; // Convert milliseconds to hours
-                console.log('diffInHours', diffInHours);
                 let updated_fee = diffInHours >= 1 ? reservation.fee * (diffInHours + 1) : reservation.fee;
                 try {
                     yield ReservationModel_1.default.update({
