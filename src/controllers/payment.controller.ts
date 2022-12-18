@@ -79,9 +79,9 @@ class PaymentController {
           uuid: user?.walletUuid
         }
       });
-
-      if(wallet?.balance < reservation.fee) return response.status(400).json({msg: "Saldo Anda tidak mencukupi untuk melakukan pembayaran"});
-      let currene_balance = wallet?.balance - reservation.fee;
+      if(!wallet) return response.status(404).json({msg: "Wallet undefined"}); 
+      if(wallet.balance < reservation.fee) return response.status(400).json({msg: "Saldo Anda tidak mencukupi untuk melakukan pembayaran"});
+      let currene_balance = wallet.balance - reservation.fee;
       
       await ParkingSpotModel.update({
         status: 'available',

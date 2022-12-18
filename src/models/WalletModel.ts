@@ -14,7 +14,10 @@ const Wallet = db.define<WalletInstance>('wallet', {
   },
   balance: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    }
   }
 }, {
   freezeTableName: true
